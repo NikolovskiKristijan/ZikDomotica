@@ -1,0 +1,8 @@
+{
+    "faro ovest": ["luce esterna ovest", "luce ovest", "faro giardino ovest", "esterno faro ovest"],
+    "faro est": ["luce esterna est", "luce est", "faro giardino est"],
+    "ingresso": ["luce ingresso", "luci ingresso"],
+    "cucina finestra sud": ["tapparella cucina sud", "tapparella sud cucina", "tapparella cucina finestra sud"],
+    "cucina portafinestra": ["tapparella cucina", "tapparella portafinestra cucina", "portafinestra cucina tapparella"]
+  }
+  
