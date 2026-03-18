@@ -1,0 +1,17 @@
+# Dipendenze Node
+node_modules/
+
+# Variabili d'ambiente (contengono segreti)
+.env
+
+# File di stato runtime (si rigenera automaticamente)
+state.json
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+
+# File di sistema
+.DS_Store
+Thumbs.db

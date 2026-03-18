@@ -1,0 +1,16 @@
+{
+  "name": "claudezikdomotica-main",
+  "version": "1.0.0",
+  "description": "L’applicazione sviluppata è una piattaforma di domotica completa, composta da un sistema integrato frontend e backend, progettata per il controllo intelligente di dispositivi domestici come luci, tapparelle, sensori e prese smart.",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "sim-ws.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "all": "^0.0.0",
+    "ws": "^8.19.0"
+  }
+}

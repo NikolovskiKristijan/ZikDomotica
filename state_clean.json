@@ -1,0 +1,1649 @@
+{
+  "method": "get_state",
+  "type": "*",
+  "majordomo": "email@gmail.com-2025-08-02T16-57-22",
+  "data": {
+    "STANZE": {
+      "bagno p1": [
+        {
+          "nome": "aplique nord",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "1",
+            "azione": "DO",
+            "nr": 0
+          }
+        },
+        {
+          "nome": "finestra",
+          "tipo": 1,
+          "statoDevice": true,
+          "stato": 0,
+          "codice": {
+            "porta": "tapparella",
+            "nome": "bagno p1 finestra"
+          }
+        }
+      ],
+      "esterno": [
+        {
+          "nome": "balcone ovest",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "1",
+            "azione": "DO",
+            "nr": 1
+          }
+        },
+        {
+          "nome": "balcone nord",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "2",
+            "azione": "DO",
+            "nr": 1
+          }
+        },
+        {
+          "nome": "pompa",
+          "tipo": 6,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "3",
+            "azione": "DO",
+            "nr": 3
+          }
+        },
+        {
+          "nome": "bagno",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "3",
+            "azione": "DO",
+            "nr": 4
+          }
+        },
+        {
+          "nome": "faro ovest",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": true,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "4",
+            "azione": "DO",
+            "nr": 0
+          }
+        },
+        {
+          "nome": "faro est",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": true,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "4",
+            "azione": "DO",
+            "nr": 1
+          }
+        },
+        {
+          "nome": "balcone est",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "4",
+            "azione": "DO",
+            "nr": 2
+          }
+        },
+        {
+          "nome": "bagnetto",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "4",
+            "azione": "DO",
+            "nr": 7
+          }
+        },
+        {
+          "nome": "ingresso",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": true,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "8",
+            "azione": "DO",
+            "nr": 0
+          }
+        },
+        {
+          "nome": "scorrevole",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "8",
+            "azione": "DO",
+            "nr": 1
+          }
+        },
+        {
+          "nome": "cancello",
+          "tipo": 6,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "12",
+            "azione": "DO",
+            "nr": 1
+          }
+        },
+        {
+          "nome": "prato est-vs casa",
+          "tipo": 7,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "12",
+            "azione": "DO",
+            "nr": 3
+          }
+        },
+        {
+          "nome": "prato nord",
+          "tipo": 7,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "12",
+            "azione": "DO",
+            "nr": 4
+          }
+        },
+        {
+          "nome": "prato est aiuola",
+          "tipo": 7,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "12",
+            "azione": "DO",
+            "nr": 5
+          }
+        },
+        {
+          "nome": "prato ovest",
+          "tipo": 7,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "12",
+            "azione": "DO",
+            "nr": 6
+          }
+        },
+        {
+          "nome": "prato est-vs fiume",
+          "tipo": 7,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "12",
+            "azione": "DO",
+            "nr": 7
+          }
+        },
+        {
+          "nome": "cucina",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "13",
+            "azione": "DO",
+            "nr": 6
+          }
+        },
+        {
+          "nome": "faro nord",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "14",
+            "azione": "DO",
+            "nr": 3
+          }
+        }
+      ],
+      "cameretta": [
+        {
+          "nome": "centro volta",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "1",
+            "azione": "DO",
+            "nr": 4
+          }
+        },
+        {
+          "nome": "aplique trave",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "8",
+            "azione": "DO",
+            "nr": 2
+          }
+        },
+        {
+          "nome": "finestra",
+          "tipo": 1,
+          "statoDevice": true,
+          "stato": 0,
+          "codice": {
+            "porta": "tapparella",
+            "nome": "cameretta finestra"
+          }
+        }
+      ],
+      "cucina": [
+        {
+          "nome": "aplique lavandino",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": true,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "1",
+            "azione": "DO",
+            "nr": 5
+          }
+        },
+        {
+          "nome": "luce forno",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": true,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "12",
+            "azione": "DO",
+            "nr": 2
+          }
+        },
+        {
+          "nome": "faretto lavandino",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "13",
+            "azione": "DO",
+            "nr": 4
+          }
+        },
+        {
+          "nome": "centro volta",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": true,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "13",
+            "azione": "DO",
+            "nr": 5
+          }
+        },
+        {
+          "nome": "finestra lavandino",
+          "tipo": 1,
+          "statoDevice": true,
+          "stato": 100,
+          "codice": {
+            "porta": "tapparella",
+            "nome": "cucina finestra lavandino"
+          }
+        },
+        {
+          "nome": "finestra sud",
+          "tipo": 1,
+          "statoDevice": true,
+          "stato": 100,
+          "codice": {
+            "porta": "tapparella",
+            "nome": "cucina finestra sud"
+          }
+        },
+        {
+          "nome": "portafinestra",
+          "tipo": 1,
+          "statoDevice": true,
+          "stato": 30,
+          "codice": {
+            "porta": "tapparella",
+            "nome": "cucina portafinestra"
+          }
+        }
+      ],
+      "bagnetto": [
+        {
+          "nome": "centro volta",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "1",
+            "azione": "DO",
+            "nr": 6
+          }
+        },
+        {
+          "nome": "specchiera",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "3",
+            "azione": "DO",
+            "nr": 0
+          }
+        },
+        {
+          "nome": "portafinestra",
+          "tipo": 1,
+          "statoDevice": true,
+          "stato": 0,
+          "codice": {
+            "porta": "tapparella",
+            "nome": "bagnetto portafinestra"
+          }
+        }
+      ],
+      "disimpegno": [
+        {
+          "nome": "centro volta",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "1",
+            "azione": "DO",
+            "nr": 7
+          }
+        }
+      ],
+      "sala p1": [
+        {
+          "nome": "aplique nord -ovest",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "2",
+            "azione": "DO",
+            "nr": 0
+          }
+        },
+        {
+          "nome": "scala ovest",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "4",
+            "azione": "DO",
+            "nr": 3
+          }
+        },
+        {
+          "nome": "scala est",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "4",
+            "azione": "DO",
+            "nr": 4
+          }
+        },
+        {
+          "nome": "aplique disimpegno",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "5",
+            "azione": "DO",
+            "nr": 0
+          }
+        },
+        {
+          "nome": "aplique nord",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "5",
+            "azione": "DO",
+            "nr": 1
+          }
+        },
+        {
+          "nome": "aplique ovest",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "5",
+            "azione": "DO",
+            "nr": 2
+          }
+        },
+        {
+          "nome": "aplique est",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "5",
+            "azione": "DO",
+            "nr": 3
+          }
+        }
+      ],
+      "soggiorno": [
+        {
+          "nome": "faretto ingresso",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": true,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "2",
+            "azione": "DO",
+            "nr": 2
+          }
+        },
+        {
+          "nome": "Tesata",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "3",
+            "azione": "DO",
+            "nr": 1
+          }
+        },
+        {
+          "nome": "falsa parete",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "3",
+            "azione": "DO",
+            "nr": 2
+          }
+        },
+        {
+          "nome": "linea faretti",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": true,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "9",
+            "azione": "DO",
+            "nr": 0
+          }
+        },
+        {
+          "nome": "falsa parete",
+          "tipo": 3,
+          "statoDevice": true,
+          "stato": true,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "14",
+            "azione": "DO",
+            "nr": 1
+          }
+        },
+        {
+          "nome": "sotto ripiani",
+          "tipo": 3,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "14",
+            "azione": "DO",
+            "nr": 2
+          }
+        },
+        {
+          "nome": "ingresso",
+          "tipo": 1,
+          "statoDevice": true,
+          "stato": 100,
+          "codice": {
+            "porta": "tapparella",
+            "nome": "soggiorno ingresso"
+          }
+        }
+      ],
+      "bagno": [
+        {
+          "nome": "aplique trave",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "3",
+            "azione": "DO",
+            "nr": 5
+          }
+        },
+        {
+          "nome": "aplique vasca",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "7",
+            "azione": "DO",
+            "nr": 0
+          }
+        },
+        {
+          "nome": "specchiera",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "7",
+            "azione": "DO",
+            "nr": 3
+          }
+        },
+        {
+          "nome": "discesa",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "7",
+            "azione": "DO",
+            "nr": 6
+          }
+        },
+        {
+          "nome": "salita",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "7",
+            "azione": "DO",
+            "nr": 7
+          }
+        },
+        {
+          "nome": "aplique doccia",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "9",
+            "azione": "DO",
+            "nr": 1
+          }
+        },
+        {
+          "nome": "presa esr",
+          "tipo": 3,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "14",
+            "azione": "DO",
+            "nr": 0
+          }
+        }
+      ],
+      "camera nord p1": [
+        {
+          "nome": "aplique nord",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "5",
+            "azione": "DO",
+            "nr": 4
+          }
+        },
+        {
+          "nome": "finestra",
+          "tipo": 1,
+          "statoDevice": true,
+          "stato": 0,
+          "codice": {
+            "porta": "tapparella",
+            "nome": "camera nord p1 finestra"
+          }
+        }
+      ],
+      "camara sud p1": [
+        {
+          "nome": "aplique ovest",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "5",
+            "azione": "DO",
+            "nr": 6
+          }
+        },
+        {
+          "nome": "aplique est",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "5",
+            "azione": "DO",
+            "nr": 7
+          }
+        },
+        {
+          "nome": "finestra",
+          "tipo": 1,
+          "statoDevice": true,
+          "stato": 60,
+          "codice": {
+            "porta": "tapparella",
+            "nome": "camara sud p1 finestra"
+          }
+        }
+      ],
+      "camera matrimoniale": [
+        {
+          "nome": "armadio",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "8",
+            "azione": "DO",
+            "nr": 3
+          }
+        },
+        {
+          "nome": "aplique letto",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "9",
+            "azione": "DO",
+            "nr": 2
+          }
+        },
+        {
+          "nome": "aplique quadro",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "9",
+            "azione": "DO",
+            "nr": 3
+          }
+        },
+        {
+          "nome": "finestra",
+          "tipo": 1,
+          "statoDevice": true,
+          "stato": 0,
+          "codice": {
+            "porta": "tapparella",
+            "nome": "camera matrimoniale finestra"
+          }
+        }
+      ],
+      "cantina": [
+        {
+          "nome": "CentroVolta",
+          "tipo": 0,
+          "statoDevice": true,
+          "stato": true,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "16",
+            "azione": "DO",
+            "nr": 0
+          }
+        },
+        {
+          "nome": "Boiler",
+          "tipo": 5,
+          "statoDevice": true,
+          "stato": false,
+          "codice": {
+            "porta": "/dev/ttyS1",
+            "nodo": "16",
+            "azione": "DO",
+            "nr": 3
+          }
+        },
+        {
+          "nome": "botola",
+          "tipo": 1,
+          "statoDevice": true,
+          "stato": 100,
+          "codice": {
+            "porta": "tapparella",
+            "nome": "cantina botola"
+          }
+        }
+      ]
+    },
+    "CLIMA": {
+      "bagno": {
+        "sonda": {
+          "porta": "/dev/ttyS1",
+          "nodo": 6,
+          "azione": "SD",
+          "nr": 6,
+          "stanza": "bagno",
+          "nome": "Bagno",
+          "statoDevice": 1,
+          "temperatura": 15.1
+        },
+        "out": [
+          {
+            "nome": "BAGNO",
+            "statoDevice": 1,
+            "statoClima": {
+              "modo": 0,
+              "testo": "OFF",
+              "crono": "",
+              "tTarget": null,
+              "durata": null,
+              "tempoResiduo": null
+            },
+            "stato": false,
+            "codice": {
+              "porta": "CL",
+              "stanza": "bagno",
+              "codice OUT": {
+                "porta": "/dev/ttyS1",
+                "nodo": "15",
+                "azione": "DO",
+                "nr": 0
+              }
+            }
+          }
+        ]
+      },
+      "camera matrimoniale": {
+        "sonda": {
+          "porta": "/dev/ttyS1",
+          "nodo": 6,
+          "azione": "SD",
+          "nr": 7,
+          "stanza": "camera matrimoniale",
+          "nome": "Camera Matrimoniale",
+          "statoDevice": 1,
+          "temperatura": 15.2
+        },
+        "out": [
+          {
+            "nome": "CAMERA",
+            "statoDevice": 1,
+            "statoClima": {
+              "modo": 0,
+              "data": "01/12/2025",
+              "ora": "18:27:04",
+              "testo": "OFF"
+            },
+            "stato": false,
+            "codice": {
+              "porta": "CL",
+              "stanza": "camera matrimoniale",
+              "codice OUT": {
+                "porta": "/dev/ttyS1",
+                "nodo": "15",
+                "azione": "DO",
+                "nr": 1
+              }
+            }
+          }
+        ]
+      },
+      "sala p1": {
+        "sonda": {
+          "porta": "/dev/ttyS1",
+          "nodo": 6,
+          "azione": "SD",
+          "nr": 2,
+          "stanza": "camara sud p1",
+          "nome": "Sala P1",
+          "statoDevice": 1,
+          "temperatura": 15
+        },
+        "out": [
+          {
+            "nome": "salaP1-1",
+            "statoDevice": 1,
+            "statoClima": {
+              "modo": 0,
+              "testo": "OFF",
+              "crono": "",
+              "tTarget": null,
+              "durata": null,
+              "tempoResiduo": null
+            },
+            "stato": false,
+            "codice": {
+              "porta": "CL",
+              "stanza": "sala p1",
+              "codice OUT": {
+                "porta": "/dev/ttyS1",
+                "nodo": "15",
+                "azione": "DO",
+                "nr": 2
+              }
+            }
+          },
+          {
+            "nome": "salaP1-2",
+            "statoDevice": 1,
+            "statoClima": {
+              "modo": 0,
+              "testo": "OFF",
+              "crono": "",
+              "tTarget": null,
+              "durata": null,
+              "tempoResiduo": null
+            },
+            "stato": false,
+            "codice": {
+              "porta": "CL",
+              "stanza": "sala p1",
+              "codice OUT": {
+                "porta": "/dev/ttyS1",
+                "nodo": "15",
+                "azione": "DO",
+                "nr": 3
+              }
+            }
+          }
+        ]
+      },
+      "bagno p1": {
+        "sonda": {
+          "porta": "/dev/ttyS1",
+          "nodo": 6,
+          "azione": "SD",
+          "nr": 2,
+          "stanza": "camara sud p1",
+          "nome": "Sala P1",
+          "statoDevice": 1,
+          "temperatura": 15
+        },
+        "out": [
+          {
+            "nome": "bagnoP1",
+            "statoDevice": 1,
+            "statoClima": {
+              "modo": 0,
+              "testo": "OFF",
+              "crono": "",
+              "tTarget": null,
+              "durata": null,
+              "tempoResiduo": null
+            },
+            "stato": false,
+            "codice": {
+              "porta": "CL",
+              "stanza": "bagno p1",
+              "codice OUT": {
+                "porta": "/dev/ttyS1",
+                "nodo": "15",
+                "azione": "DO",
+                "nr": 4
+              }
+            }
+          }
+        ]
+      },
+      "camera nord p1": {
+        "sonda": {
+          "porta": "/dev/ttyS1",
+          "nodo": 6,
+          "azione": "SD",
+          "nr": 2,
+          "stanza": "camara sud p1",
+          "nome": "Sala P1",
+          "statoDevice": 1,
+          "temperatura": 15
+        },
+        "out": [
+          {
+            "nome": "camereP1",
+            "statoDevice": 1,
+            "statoClima": {
+              "modo": 0,
+              "testo": "OFF",
+              "crono": "",
+              "tTarget": null,
+              "durata": null,
+              "tempoResiduo": null
+            },
+            "stato": false,
+            "codice": {
+              "porta": "CL",
+              "stanza": "camera nord p1",
+              "codice OUT": {
+                "porta": "/dev/ttyS1",
+                "nodo": "15",
+                "azione": "DO",
+                "nr": 5
+              }
+            }
+          }
+        ]
+      },
+      "soggiorno": {
+        "sonda": {
+          "porta": "/dev/ttyS1",
+          "nodo": 6,
+          "azione": "SD",
+          "nr": 5,
+          "stanza": "soggiorno",
+          "nome": "Soggiorno",
+          "statoDevice": 1,
+          "temperatura": 14.9
+        },
+        "out": [
+          {
+            "nome": "SOGGIORNO SUD",
+            "statoDevice": 1,
+            "statoClima": {
+              "modo": 0,
+              "testo": "OFF",
+              "crono": "",
+              "tTarget": null,
+              "durata": null,
+              "tempoResiduo": null
+            },
+            "stato": false,
+            "codice": {
+              "porta": "CL",
+              "stanza": "soggiorno",
+              "codice OUT": {
+                "porta": "/dev/ttyS1",
+                "nodo": "15",
+                "azione": "DO",
+                "nr": 8
+              }
+            }
+          },
+          {
+            "nome": "SOGGIORNO CENTRO",
+            "statoDevice": 1,
+            "statoClima": {
+              "modo": 0,
+              "testo": "OFF",
+              "crono": "",
+              "tTarget": null,
+              "durata": null,
+              "tempoResiduo": null
+            },
+            "stato": false,
+            "codice": {
+              "porta": "CL",
+              "stanza": "soggiorno",
+              "codice OUT": {
+                "porta": "/dev/ttyS1",
+                "nodo": "15",
+                "azione": "DO",
+                "nr": 12
+              }
+            }
+          },
+          {
+            "nome": "SOGGIORNO NORD",
+            "statoDevice": 1,
+            "statoClima": {
+              "modo": 0,
+              "testo": "OFF",
+              "crono": "",
+              "tTarget": null,
+              "durata": null,
+              "tempoResiduo": null
+            },
+            "stato": false,
+            "codice": {
+              "porta": "CL",
+              "stanza": "soggiorno",
+              "codice OUT": {
+                "porta": "/dev/ttyS1",
+                "nodo": "15",
+                "azione": "DO",
+                "nr": 13
+              }
+            }
+          }
+        ]
+      },
+      "cucina": {
+        "sonda": {
+          "porta": "/dev/ttyS1",
+          "nodo": 6,
+          "azione": "SD",
+          "nr": 4,
+          "stanza": "cucina",
+          "nome": "Cucina",
+          "statoDevice": 1,
+          "temperatura": 15.5
+        },
+        "out": [
+          {
+            "nome": "CUCINA",
+            "statoDevice": 1,
+            "statoClima": {
+              "modo": 0,
+              "testo": "OFF",
+              "crono": "",
+              "tTarget": null,
+              "durata": null,
+              "tempoResiduo": null
+            },
+            "stato": false,
+            "codice": {
+              "porta": "CL",
+              "stanza": "cucina",
+              "codice OUT": {
+                "porta": "/dev/ttyS1",
+                "nodo": "15",
+                "azione": "DO",
+                "nr": 9
+              }
+            }
+          }
+        ]
+      },
+      "cameretta": {
+        "sonda": {
+          "porta": "/dev/ttyS1",
+          "nodo": 6,
+          "azione": "SD",
+          "nr": 1,
+          "stanza": "cameretta",
+          "nome": "Cameretta",
+          "statoDevice": 1,
+          "temperatura": 14.6
+        },
+        "out": [
+          {
+            "nome": "CAMERETTA",
+            "statoDevice": 1,
+            "statoClima": {
+              "modo": 0,
+              "testo": "OFF",
+              "crono": "",
+              "tTarget": null,
+              "durata": null,
+              "tempoResiduo": null
+            },
+            "stato": false,
+            "codice": {
+              "porta": "CL",
+              "stanza": "cameretta",
+              "codice OUT": {
+                "porta": "/dev/ttyS1",
+                "nodo": "15",
+                "azione": "DO",
+                "nr": 10
+              }
+            }
+          }
+        ]
+      },
+      "bagnetto": {
+        "sonda": {
+          "porta": "/dev/ttyS1",
+          "nodo": 6,
+          "azione": "SD",
+          "nr": 0,
+          "stanza": "bagnetto",
+          "nome": "Bagnetto",
+          "statoDevice": 1,
+          "temperatura": 16
+        },
+        "out": [
+          {
+            "nome": "BAGNETTO",
+            "statoDevice": 1,
+            "statoClima": {
+              "modo": 0,
+              "data": "01/12/2025",
+              "ora": "18:27:04",
+              "testo": "OFF"
+            },
+            "stato": false,
+            "codice": {
+              "porta": "CL",
+              "stanza": "bagnetto",
+              "codice OUT": {
+                "porta": "/dev/ttyS1",
+                "nodo": "15",
+                "azione": "DO",
+                "nr": 11
+              }
+            }
+          }
+        ]
+      }
+    },
+    "SCENARI": [
+      {
+        "nome": "cancello",
+        "codice": {
+          "azione": "PV",
+          "nodo": 1,
+          "nr": 1,
+          "porta": "PV"
+        },
+        "icona": "Preferiti"
+      },
+      {
+        "nome": "PRESA BAGNO",
+        "codice": {
+          "azione": "PV",
+          "nodo": 2,
+          "nr": 2,
+          "porta": "PV"
+        },
+        "icona": "Prese"
+      },
+      {
+        "nome": "accendi P1",
+        "codice": {
+          "azione": "PV",
+          "nodo": 3,
+          "nr": 3,
+          "porta": "PV"
+        },
+        "icona": "Preferiti"
+      },
+      {
+        "nome": "spegni P1",
+        "codice": {
+          "azione": "PV",
+          "nodo": 4,
+          "nr": 4,
+          "porta": "PV"
+        },
+        "icona": "Preferiti"
+      },
+      {
+        "nome": "tapparelle P1",
+        "codice": {
+          "azione": "PV",
+          "nodo": 5,
+          "nr": 5,
+          "porta": "PV"
+        },
+        "icona": "Tapparelle"
+      },
+      {
+        "nome": "esterne OFF",
+        "codice": {
+          "azione": "PV",
+          "nodo": 6,
+          "nr": 6,
+          "porta": "PV"
+        },
+        "icona": "Preferiti"
+      },
+      {
+        "nome": "esterne ON",
+        "codice": {
+          "azione": "PV",
+          "nodo": 7,
+          "nr": 7,
+          "porta": "PV"
+        },
+        "icona": "Preferiti"
+      },
+      {
+        "nome": "tapp zona notte+bagni 100",
+        "codice": {
+          "azione": "PV",
+          "nodo": 8,
+          "nr": 8,
+          "porta": "PV"
+        },
+        "icona": "Tapparelle"
+      },
+      {
+        "nome": "tapp zona giorno 100",
+        "codice": {
+          "azione": "PV",
+          "nodo": 9,
+          "nr": 9,
+          "porta": "PV"
+        },
+        "icona": "Tapparelle"
+      },
+      {
+        "nome": "presa falsa parete ON",
+        "codice": {
+          "azione": "PV",
+          "nodo": 10,
+          "nr": 10,
+          "porta": "PV"
+        },
+        "icona": "Prese"
+      },
+      {
+        "nome": "presa sotto ripiani",
+        "codice": {
+          "azione": "PV",
+          "nodo": 11,
+          "nr": 11,
+          "porta": "PV"
+        },
+        "icona": "Prese"
+      },
+      {
+        "nome": "presa falsa pare OFF",
+        "codice": {
+          "azione": "PV",
+          "nodo": 12,
+          "nr": 12,
+          "porta": "PV"
+        },
+        "icona": "Prese"
+      },
+      {
+        "nome": "SVEGLIA",
+        "codice": {
+          "azione": "PV",
+          "nodo": 13,
+          "nr": 13,
+          "porta": "PV"
+        },
+        "icona": "Preferiti"
+      },
+      {
+        "nome": "aiuola+orto+pratino",
+        "codice": {
+          "azione": "PV",
+          "nodo": 14,
+          "nr": 14,
+          "porta": "PV"
+        },
+        "icona": "Irrigazione"
+      },
+      {
+        "nome": "EST vs fiume",
+        "codice": {
+          "azione": "PV",
+          "nodo": 15,
+          "nr": 15,
+          "porta": "PV"
+        },
+        "icona": "Irrigazione"
+      },
+      {
+        "nome": "EST vs casa",
+        "codice": {
+          "azione": "PV",
+          "nodo": 16,
+          "nr": 16,
+          "porta": "PV"
+        },
+        "icona": "Irrigazione"
+      },
+      {
+        "nome": "NORD",
+        "codice": {
+          "azione": "PV",
+          "nodo": 17,
+          "nr": 17,
+          "porta": "PV"
+        },
+        "icona": "Irrigazione"
+      },
+      {
+        "nome": "OVEST",
+        "codice": {
+          "azione": "PV",
+          "nodo": 18,
+          "nr": 18,
+          "porta": "PV"
+        },
+        "icona": "Irrigazione"
+      },
+      {
+        "nome": "Boiler",
+        "codice": {
+          "azione": "PV",
+          "nodo": 19,
+          "nr": 19,
+          "porta": "PV"
+        },
+        "icona": "Prese"
+      },
+      {
+        "nome": "botola",
+        "codice": {
+          "azione": "PV",
+          "nodo": 20,
+          "nr": 20,
+          "porta": "PV"
+        },
+        "icona": "Prese"
+      },
+      {
+        "nome": "Esterne automatiche",
+        "codice": {
+          "azione": "PV",
+          "nodo": 21,
+          "nr": 21,
+          "porta": "PV"
+        },
+        "icona": "Preferiti"
+      },
+      {
+        "nome": "pompa off",
+        "codice": {
+          "azione": "PV",
+          "nodo": 22,
+          "nr": 22,
+          "porta": "PV"
+        },
+        "icona": "Preferiti"
+      },
+      {
+        "nome": "prova dimm",
+        "codice": {
+          "azione": "PV",
+          "nodo": 23,
+          "nr": 23,
+          "porta": "PV"
+        },
+        "icona": "Tapparelle"
+      },
+      {
+        "nome": "total off",
+        "codice": {
+          "azione": "PV",
+          "nodo": 25,
+          "nr": 25,
+          "porta": "PV"
+        },
+        "icona": "Preferiti"
+      },
+      {
+        "nome": "sirena",
+        "codice": {
+          "azione": "PV",
+          "nodo": 27,
+          "nr": 27,
+          "porta": "PV"
+        },
+        "icona": "Preferiti"
+      },
+      {
+        "nome": "faro nord",
+        "codice": {
+          "azione": "PV",
+          "nodo": 28,
+          "nr": 28,
+          "porta": "PV"
+        },
+        "icona": "Preferiti"
+      },
+      {
+        "nome": "cancelletto",
+        "codice": {
+          "azione": "PV",
+          "nodo": 24,
+          "nr": 24,
+          "porta": "PV"
+        },
+        "icona": "Preferiti"
+      },
+      {
+        "nome": "sala p1 Prova PR",
+        "statoDevice": null,
+        "codice": {
+          "porta": "/dev/ttyS0",
+          "nodo": 1,
+          "nr": 9,
+          "azione": "DI"
+        }
+      },
+      {
+        "nome": "soggiorno prova",
+        "statoDevice": null,
+        "codice": {
+          "porta": "/dev/ttyS0",
+          "nodo": 10,
+          "nr": 14,
+          "azione": "DI"
+        }
+      }
+    ],
+    "ANTIFURTO": [
+      {
+        "nome": "GENERALE",
+        "stato": 0,
+        "codice": {
+          "azione": "AL",
+          "nodo": 1,
+          "nr": 1,
+          "porta": "Antintrusione"
+        }
+      },
+      {
+        "nome": "ESTERNO",
+        "stato": 0,
+        "codice": {
+          "azione": "AL",
+          "nodo": 2,
+          "nr": 2,
+          "porta": "Antintrusione"
+        }
+      },
+      {
+        "nome": "INTERNO",
+        "stato": 0,
+        "codice": {
+          "azione": "AL",
+          "nodo": 3,
+          "nr": 3,
+          "porta": "Antintrusione"
+        }
+      }
+    ],
+    "UTENTI": [
+      {
+        "Cognome": "Palermo",
+        "Nome": "Vito",
+        "Email": "",
+        "Abilitato APP": {},
+        "codice": {
+          "tipo": "Utenti",
+          "nodo": 2
+        }
+      },
+      {
+        "Cognome": "Polaro",
+        "Nome": "Silvio",
+        "Email": "",
+        "Abilitato APP": {},
+        "codice": {
+          "tipo": "Utenti",
+          "nodo": 8
+        }
+      },
+      {
+        "Cognome": "Rossato",
+        "Nome": "Marco",
+        "Email": "",
+        "Abilitato APP": {},
+        "codice": {
+          "tipo": "Utenti",
+          "nodo": 7
+        }
+      },
+      {
+        "Cognome": "Brizio",
+        "Nome": "Edoardo",
+        "Email": "edoardo@email.it",
+        "Abilitato APP": {
+          "online": false
+        },
+        "codice": {
+          "tipo": "Utenti",
+          "nodo": 4
+        }
+      },
+      {
+        "Cognome": "Sorasio",
+        "Nome": "Jonathan",
+        "Email": "",
+        "Abilitato APP": {},
+        "codice": {
+          "tipo": "Utenti",
+          "nodo": 5
+        }
+      },
+      {
+        "Cognome": "Sorasio",
+        "Nome": "Cristian",
+        "Email": "",
+        "Abilitato APP": {},
+        "codice": {
+          "tipo": "Utenti",
+          "nodo": 3
+        }
+      },
+      {
+        "Cognome": "Bianchi",
+        "Nome": "Mattia",
+        "Email": "",
+        "Abilitato APP": {},
+        "codice": {
+          "tipo": "Utenti",
+          "nodo": 6
+        }
+      },
+      {
+        "Cognome": "Soras",
+        "Nome": "Manuel",
+        "Email": "manuel@email.it",
+        "Abilitato APP": {
+          "stato": true,
+          "online": "ok"
+        },
+        "codice": {
+          "tipo": "Utenti",
+          "nodo": 1
+        }
+      },
+      {
+        "Azienda": "SCOMPANY",
+        "Contatto": "SAM",
+        "Email": "sam@scompany.org",
+        "Abilitato APP": {
+          "online": false
+        },
+        "codice": {
+          "tipo": "Assistenza",
+          "nodo": "installatore"
+        }
+      }
+    ],
+    "CRONO": [
+      "bagno",
+      "T° fissa-durata 3gg",
+      "zona giorno",
+      "zona notte",
+      "cucina",
+      "dad",
+      "Prova aria"
+    ]
+  }
+}
