@@ -7,16 +7,10 @@ class RoomCard extends StatelessWidget {
 
   const RoomCard({Key? key, required this.room, required this.onTap}) : super(key: key);
 
-  // Helper per convertire la stringa dell'icona (dal DB) in Icona Flutter
-  IconData _getIconData(String iconName) {
-    switch (iconName) {
-      case 'kitchen': return Icons.kitchen;
-      case 'bedroom': return Icons.bed;
-      case 'bathroom': return Icons.bathtub;
-      case 'living_room': return Icons.weekend;
-      case 'office': return Icons.computer;
-      default: return Icons.home;
-    }
+  IconData _getIcon(String iconName) {
+    if (iconName == 'kitchen') return Icons.kitchen;
+    if (iconName == 'bedroom') return Icons.bed;
+    return Icons.weekend;
   }
 
   @override
@@ -24,55 +18,26 @@ class RoomCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        height: 140,
         decoration: BoxDecoration(
-          // Sfumatura elegante scura
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              const Color(0xFF2C2C2E), 
-              const Color(0xFF1C1C1E).withOpacity(0.8),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white10), // Bordo sottile
+          gradient: const LinearGradient(colors: [Color(0xFF00BFA5), Color(0xFFFF007F)]),
+          borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10, offset: const Offset(0, 5))],
         ),
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
           children: [
-            // Icona in alto a destra
-            Align(
-              alignment: Alignment.topRight,
-              child: Icon(
-                _getIconData(room.icon),
-                color: Colors.white70,
-                size: 32,
+            Positioned(right: -10, bottom: -10, child: Icon(_getIcon(room.icon), size: 120, color: Colors.white10)),
+            Padding(
+              padding: const EdgeInsets.all(25),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(room.name, style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+                  Text("${room.devices.length} dispositivi", style: const TextStyle(color: Colors.white70)),
+                ],
               ),
-            ),
-            
-            // Testi in basso
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  room.name,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "${room.devices.length} Dispositivi",
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
-                    fontSize: 12,
-                  ),
-                ),
-              ],
             ),
           ],
         ),

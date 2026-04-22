@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../models/app_models.dart';
 import '../widgets/room_card.dart';
+import 'add_room_screen.dart';
 import 'room_detail_screen.dart';
+import 'stats_screen.dart'; // Assicurati di aver creato questo file
+import 'log_screen.dart';   // Assicurati di aver creato questo file
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,122 +21,240 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    //_loadData();
-    _roomsFuture = _getFakeRooms();
+    _roomsFuture = _apiService.getHomeConfig(1);
   }
 
-  //void _loadData() {
-  // 1 è l'ID utente fittizio. In futuro lo prenderai dal login.
-  //_roomsFuture = _apiService.getHomeConfig(1);
-  //}
-  // Metti questo dentro HomeScreen per testare se non hai il backend pronto
-  Future<List<Room>> _getFakeRooms() async {
-    await Future.delayed(const Duration(seconds: 1)); // Finto ritardo rete
-    return [
-      Room(
-        id: 1,
-        name: "Salotto",
-        icon: "living_room",
-        devices: [
-          Device(id: 1, name: "Luce", type: "light", knxWrite: "", knxRead: ""),
-          Device(
-            id: 2,
-            name: "Tapparella",
-            type: "shutter",
-            knxWrite: "",
-            knxRead: "",
-          ),
-        ],
-      ),
-      Room(id: 2, name: "Cucina", icon: "kitchen", devices: []),
-    ];
+  // Funzione per ricaricare i dati quando si torna dalle altre pagine
+  void _refreshData() {
+    setState(() {
+      _roomsFuture = _apiService.getHomeConfig(1);
+    });
   }
-  // Poi nell'initState usa: _roomsFuture = _getFakeRooms();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              "Bentornato, Matteo",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              "La tua casa è online",
-              style: TextStyle(fontSize: 14, color: Colors.amber),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.amber,
-        child: const Icon(Icons.add_home, color: Colors.black),
-        onPressed: () {
-          // Qui aprirai il form per creare una nuova stanza
-        },
-      ),
-      body: FutureBuilder<List<Room>>(
-        future: _roomsFuture,
-        builder: (context, snapshot) {
-          // 1. CARICAMENTO
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(color: Colors.amber),
-            );
-          }
-
-          // 2. ERRORE
-          if (snapshot.hasError) {
-            // Se il server è spento, mostriamo un messaggio gentile
-            return Center(
-              child: Text(
-                "Errore connessione: ${snapshot.error}",
-                style: const TextStyle(color: Colors.red),
+      body: CustomScrollView(
+        slivers: [
+          // HEADER PROFESSIONALE CON METEO E AZIONI
+          SliverAppBar(
+            expandedHeight: 220,
+            pinned: true,
+            backgroundColor: const Color(0xFF00BFA5),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.bar_chart, color: Colors.white),
+                tooltip: 'Statistiche Energia',
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const StatsScreen())),
               ),
-            );
-          }
-
-          // 3. DATI PRONTI
-          final rooms = snapshot.data ?? [];
-
-          if (rooms.isEmpty) {
-            return const Center(
-              child: Text(
-                "Nessuna stanza. Creane una col tasto +",
-                style: TextStyle(color: Colors.white70),
+              Stack(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.notifications_none, color: Colors.white),
+                    onPressed: () => _showNotifications(context),
+                  ),
+                  Positioned(
+                    right: 8, top: 8,
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                      constraints: const BoxConstraints(minWidth: 14, minHeight: 14),
+                      child: const Text('2', style: TextStyle(color: Colors.white, fontSize: 8), textAlign: TextAlign.center),
+                    ),
+                  )
+                ],
               ),
-            );
-          }
+              IconButton(
+                icon: const Icon(Icons.terminal, color: Colors.white),
+                tooltip: 'Console KNX',
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const LogScreen())),
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                padding: const EdgeInsets.only(top: 80, left: 25, right: 25),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF00BFA5), Color(0xFF00E676)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Bentornato, Casa", style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _infoTile(Icons.bolt, "2.4 kW", "Consumo"),
+                        _infoTile(Icons.thermostat, "21°C", "Esterna"),
+                        _infoTile(Icons.cloud, "Sereno", "Meteo"),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
 
-          // 4. LISTA STANZE
-          return ListView.separated(
-            padding: const EdgeInsets.all(20),
-            itemCount: rooms.length,
-            separatorBuilder: (ctx, i) => const SizedBox(height: 16),
-            itemBuilder: (ctx, index) {
-              return SizedBox(
-                height: 120, // Altezza fissa per le card delle stanze
-                child: RoomCard(
-                  room: rooms[index],
-                  onTap: () {
-                    // NAVIGAZIONE: Vai al dettaglio stanza
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            RoomDetailScreen(room: rooms[index]),
-                      ),
-                    );
-                  },
+          // SEZIONE SCENARI RAPIDI
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(20, 25, 20, 15),
+                  child: Text("Scenari Rapidi", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF2D3436))),
+                ),
+                SizedBox(
+                  height: 100,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    itemCount: _apiService.scenes.length,
+                    itemBuilder: (context, i) {
+                      final s = _apiService.scenes[i];
+                      return Container(
+                        width: 90,
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                          color: Color(s['color']).withOpacity(0.1), 
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Color(s['color']).withOpacity(0.3))
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(_getSceneIcon(s['icon']), color: Color(s['color'])),
+                            const SizedBox(height: 5),
+                            Text(s['name'], style: TextStyle(color: Color(s['color']), fontWeight: FontWeight.bold, fontSize: 12)),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20, top: 35, bottom: 10),
+                  child: Text("Le tue Stanze", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF2D3436))),
+                ),
+              ],
+            ),
+          ),
+
+          // LISTA STANZE DINAMICA
+          FutureBuilder<List<Room>>(
+            future: _roomsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SliverToBoxAdapter(child: Center(child: Padding(padding: EdgeInsets.all(40), child: CircularProgressIndicator())));
+              }
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const SliverToBoxAdapter(child: Center(child: Text("Nessuna stanza configurata")));
+              }
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => RoomCard(
+                    room: snapshot.data![index],
+                    onTap: () async {
+                      await Navigator.push(context, MaterialPageRoute(builder: (context) => RoomDetailScreen(room: snapshot.data![index])));
+                      _refreshData();
+                    },
+                  ),
+                  childCount: snapshot.data!.length,
                 ),
               );
             },
-          );
-        },
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 110)), // Spazio per i bottoni flottanti
+        ],
+      ),
+
+      // BOTTONI FLOTTANTI (AGGIUNGI E VOCE)
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          FloatingActionButton.extended(
+            heroTag: "btn_add",
+            backgroundColor: const Color(0xFFFF007F),
+            label: const Text("Nuova Stanza", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            icon: const Icon(Icons.add, color: Colors.white),
+            onPressed: () async {
+              final res = await Navigator.push(context, MaterialPageRoute(builder: (context) => const AddRoomScreen()));
+              if (res == true) _refreshData();
+            },
+          ),
+          FloatingActionButton(
+            heroTag: "btn_mic",
+            backgroundColor: Colors.white,
+            elevation: 4,
+            child: const Icon(Icons.mic, color: Color(0xFF00BFA5), size: 30),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("🎙️ In ascolto... Prova a dire 'Accendi luci'"), 
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Color(0xFF2D3436),
+                )
+              );
+            },
+          ),
+        ],
       ),
     );
+  }
+
+  // Widget Helper per le info meteo/consumi
+  Widget _infoTile(IconData icon, String val, String label) {
+    return Column(
+      children: [
+        Icon(icon, color: Colors.white, size: 22),
+        const SizedBox(height: 4),
+        Text(val, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+        Text(label, style: const TextStyle(color: Colors.white70, fontSize: 10)),
+      ],
+    );
+  }
+
+  // Mostra il centro notifiche
+  void _showNotifications(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(25),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10))),
+            const SizedBox(height: 20),
+            const Text("Centro Notifiche", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 20),
+            _notifItem("Sicurezza", "Allarme perimetrale attivato (08:30)", Icons.security, Colors.blue),
+            _notifItem("Manutenzione", "Filtro aria VMC da sostituire", Icons.build, Colors.orange),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _notifItem(String title, String desc, IconData icon, Color col) {
+    return ListTile(
+      leading: CircleAvatar(backgroundColor: col.withOpacity(0.1), child: Icon(icon, color: col, size: 20)),
+      title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+      subtitle: Text(desc, style: const TextStyle(fontSize: 12)),
+      contentPadding: EdgeInsets.zero,
+    );
+  }
+
+  IconData _getSceneIcon(String name) {
+    if (name == 'movie') return Icons.movie;
+    if (name == 'bedtime') return Icons.bedtime;
+    if (name == 'exit_to_app') return Icons.exit_to_app;
+    return Icons.spa;
   }
 }
