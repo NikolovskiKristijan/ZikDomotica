@@ -1,12 +1,11 @@
 """
-bridge_unified.py  –  v1.0
-Sostituisce bridge.js  e  bridge_flask.py
-
-Cosa fa:
-  - Si connette a sim-ws.js tramite WebSocket (come bridge.js)
-  - Esegue il matching fuzzy + aliases + disambiguation (come bridge_flask.py)
-  - Espone le stesse REST API sulla porta 3000
-  - Include il codice Modbus nella risposta → pronto per il passaggio al reale
+bridge_unified.py  –  v2.0
+Aggiornato per struttura reale Majordomo:
+  - Formato messaggi: "metodo": "write_state" (compatibile con app Flutter)
+  - STANZE: match tapparelle per codice.nome, digitali per nome/codice
+  - CLIMA: struttura sonda + out[] + statoClima con 5 modi
+  - SCENARI: pulsanti virtuali (porta=PV)
+  - ANTIFURTO: zone inserimento
 
 Avvio:
   python bridge_unified.py
@@ -20,7 +19,7 @@ import json
 import threading
 import time
 
-import websocket          # pip install websocket-client
+import websocket
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -36,9 +35,9 @@ ALIASES_PATH = os.path.join(os.path.dirname(__file__), "aliases.json")
 
 # ── Stato globale thread-safe ──────────────────────────────────────────────────
 _lock       = threading.Lock()
-_last_state = None          # dict con data.STANZE aggiornato via WS
-_ws_conn    = None          # websocket.WebSocketApp attivo
-_ws_ok      = False         # True se connesso
+_last_state = None
+_ws_conn    = None
+_ws_ok      = False
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  LAYER WEBSOCKET
@@ -74,14 +73,12 @@ def _on_error(ws, err):
     print(f"❌ Errore WS: {err}")
 
 def _get_state():
-    """Richiede lo stato aggiornato al simulatore."""
     if _ws_ok and _ws_conn:
         _ws_conn.send(json.dumps({
-            "method": "get_state", "type": "*", "majordomo": "bridge"
+            "metodo": "get_state", "type": "*", "majordomo": "bridge"
         }))
 
 def _send(payload: dict):
-    """Invia un comando al WS. Lancia ConnectionError se non connesso."""
     if not _ws_ok or not _ws_conn:
         raise ConnectionError("WebSocket non connesso")
     _ws_conn.send(json.dumps(payload))
@@ -122,7 +119,6 @@ def _score(target: str, candidate: str) -> int:
     return len(t & c) if t and c else 0
 
 def _canonicalize(name: str) -> str:
-    """Risolve un alias nel nome canonico."""
     target  = _norm(name)
     aliases = _load_aliases()
     for canonical in aliases:
@@ -142,36 +138,27 @@ def _iter_devices(state: dict):
                     yield stanza, dev
 
 def _candidates(stanza: str, dev: dict) -> list:
-    """Nomi alternativi per il matching di un device."""
-    return [
-        _norm(dev.get("nome", "")),
-        _norm(dev.get("codice", {}).get("nome", "")),
-        _norm(f"{stanza} {dev.get('nome', '')}"),
-    ]
+    nome = _norm(dev.get("nome", ""))
+    # Per tapparelle usa anche codice.nome
+    codice_nome = _norm(dev.get("codice", {}).get("nome", ""))
+    stanza_nome = _norm(f"{stanza} {dev.get('nome', '')}")
+    return [x for x in [nome, codice_nome, stanza_nome] if x]
 
 def _find_one(state: dict, name: str):
-    """Trova il device più probabile (1 risultato)."""
     target = _canonicalize(name)
-
-    # 1) match esatto
     for stanza, dev in _iter_devices(state):
         if target in _candidates(stanza, dev):
             return stanza, dev
-
-    # 2) fuzzy (almeno 2 token in comune)
     best, best_sc = None, 0
     for stanza, dev in _iter_devices(state):
         sc = max(_score(target, c) for c in _candidates(stanza, dev))
         if sc > best_sc:
             best_sc, best = sc, (stanza, dev)
-
     return best if best and best_sc >= 2 else (None, None)
 
 def _find_many(state: dict, name: str, tipo=None) -> list:
-    """Trova tutti i device compatibili (usato per disambiguation)."""
     target = _canonicalize(name)
     found, seen = [], set()
-
     for stanza, dev in _iter_devices(state):
         if tipo is not None and dev.get("tipo") != tipo:
             continue
@@ -183,11 +170,9 @@ def _find_many(state: dict, name: str, tipo=None) -> list:
             if key not in seen:
                 seen.add(key)
                 found.append((stanza, dev))
-
     return found
 
 def _is_generic_blind(name: str, state: dict) -> bool:
-    """True se la richiesta è generica (es. 'tapparelle cucina' senza specificare quale)."""
     t = set(_tokenize(name))
     if "tapparella" not in t and "tapparelle" not in t:
         return False
@@ -210,6 +195,50 @@ def _blinds_in_room(state: dict, room_query: str) -> list:
 def _canon_name(stanza: str, dev: dict) -> str:
     return dev.get("codice", {}).get("nome") or f"{stanza} {dev.get('nome', '')}"
 
+# ── Matching CLIMA ─────────────────────────────────────────────────────────────
+
+def _find_clima(state: dict, name: str):
+    """
+    Cerca una stanza clima dal testo.
+    Ritorna (stanza, zona_dict) oppure None.
+    """
+    target = _canonicalize(name)
+    clima  = state.get("data", {}).get("CLIMA", {})
+
+    # match esatto sul nome stanza
+    for stanza in clima:
+        if _norm(stanza) == target:
+            return stanza, clima[stanza]
+
+    # fuzzy
+    best, best_sc = None, 0
+    for stanza in clima:
+        sc = _score(target, _norm(stanza))
+        if sc > best_sc:
+            best_sc, best = sc, stanza
+    if best and best_sc >= 1:
+        return best, clima[best]
+    return None, None
+
+# ── Matching SCENARI ───────────────────────────────────────────────────────────
+
+def _find_scenario(state: dict, name: str):
+    target   = _canonicalize(name)
+    scenari  = state.get("data", {}).get("SCENARI", [])
+
+    # match esatto
+    for sc in scenari:
+        if _norm(sc.get("nome", "")) == target:
+            return sc
+
+    # fuzzy
+    best, best_sc = None, 0
+    for sc in scenari:
+        s2 = _score(target, _norm(sc.get("nome", "")))
+        if s2 > best_sc:
+            best_sc, best = s2, sc
+    return best if best and best_sc >= 1 else None
+
 # ══════════════════════════════════════════════════════════════════════════════
 #  FLASK  –  REST API
 # ══════════════════════════════════════════════════════════════════════════════
@@ -230,7 +259,15 @@ def _home():
     return jsonify({
         "status": "OK",
         "ws_connected": _ws_ok,
-        "endpoints": ["GET /state", "POST /device/power", "POST /blind/set"]
+        "endpoints": [
+            "GET  /state",
+            "POST /device/power      {name, on}",
+            "POST /blind/set         {name, value}",
+            "POST /climate/set       {name, modo, tTarget?, durata?, crono?}",
+            "GET  /climate/state",
+            "POST /scenario/run      {name}",
+            "POST /antifurto/set     {name, stato}",
+        ]
     })
 
 # ── GET /state ─────────────────────────────────────────────────────────────────
@@ -263,28 +300,40 @@ def _power():
     if dev.get("tipo") == 1:
         return jsonify({"error": "è una tapparella: usa /blind/set"}), 400
 
-    codice = dev.get("codice", {})
+    # Controlla se è già nello stato richiesto
+    stato_attuale = dev.get("stato")
+    if isinstance(stato_attuale, bool) and stato_attuale == on:
+        return jsonify({
+            "ok":      True,
+            "already": True,
+            "stanza":  stanza,
+            "nome":    dev.get("nome"),
+            "on":      on,
+        })
 
     try:
         _send({
-            "method": "set_state",
-            "type":   "*",
-            "majordomo": "bridge",
-            "data": {
-                "codice": codice,        # ← usato dal layer Modbus reale
-                "nome":   dev.get("nome"),
-                "stato":  on
-            }
+            "metodo": "write_state",
+            "dest":   "STANZE",
+            "codice": dev.get("codice", {}),
+            "nome":   dev.get("nome"),
+            "stato":  on
         })
     except ConnectionError as e:
         return jsonify({"error": str(e)}), 503
 
+    # Aggiorna subito lo stato in memoria senza aspettare il refresh
+    with _lock:
+        dev["stato"] = on
+        dev["statoDevice"] = True
+
     return jsonify({
         "ok":     True,
+        "already": False,
         "stanza": stanza,
         "nome":   dev.get("nome"),
         "on":     on,
-        "codice": codice                 # ← utile per debug / futuro
+        "codice": dev.get("codice", {})
     })
 
 # ── POST /blind/set ────────────────────────────────────────────────────────────
@@ -309,7 +358,7 @@ def _blind():
     except Exception:
         return jsonify({"error": "value non numerico"}), 400
 
-    # Richiesta generica (es. "tapparelle cucina") → controlla se ambigua
+    # Richiesta generica → disambigua per stanza
     if _is_generic_blind(name, state):
         matches = _blinds_in_room(state, name)
         if len(matches) > 1:
@@ -321,7 +370,6 @@ def _blind():
                 "options":        options
             }), 409
 
-    # Ricerca specifica
     matches = _find_many(state, name, tipo=1)
 
     if not matches:
@@ -337,18 +385,14 @@ def _blind():
         }), 409
 
     stanza, dev = matches[0]
-    codice = dev.get("codice", {})
 
     try:
         _send({
-            "method": "set_state",
-            "type":   "*",
-            "majordomo": "bridge",
-            "data": {
-                "codice": codice,
-                "nome":   dev.get("nome"),
-                "stato":  value
-            }
+            "metodo": "write_state",
+            "dest":   "STANZE",
+            "codice": dev.get("codice", {}),   # contiene codice.nome per tapparelle
+            "nome":   dev.get("nome"),
+            "stato":  value
         })
     except ConnectionError as e:
         return jsonify({"error": str(e)}), 503
@@ -358,10 +402,10 @@ def _blind():
         "stanza": stanza,
         "nome":   dev.get("nome"),
         "value":  value,
-        "codice": codice
+        "codice": dev.get("codice", {})
     })
 
-# ── POST /climate/set ─────────────────────────────────────────────────────────
+# ── POST /climate/set ──────────────────────────────────────────────────────────
 @app.post("/climate/set")
 def _climate():
     with _lock:
@@ -369,59 +413,89 @@ def _climate():
     if not state:
         return jsonify({"error": "state not ready"}), 503
 
-    body  = request.get_json(silent=True) or {}
-    name  = body.get("name", "")
-    on    = body.get("on", None)
-    temp  = body.get("temperature", None)
-    mode  = body.get("mode", None)
+    body    = request.get_json(silent=True) or {}
+    name    = body.get("name", "")
+    on      = body.get("on", None)
+    modo    = body.get("modo", None)
+    tTarget = body.get("temperature", body.get("tTarget", None))
+    durata  = body.get("durata", None)
+    crono   = body.get("crono", None)
 
     if not name:
         return jsonify({"error": "name mancante"}), 400
 
-    # Trova termostato (tipo 2)
-    target = _canonicalize(name)
-    found_stanza, found_dev = None, None
+    # Determina modo se non passato esplicitamente
+    if modo is None:
+        if on is False:
+            modo = 0   # OFF
+        elif tTarget is not None:
+            modo = 4   # temperatura fissa
+        elif durata is not None:
+            modo = 2   # on per N ore
+        elif crono is not None:
+            modo = 3   # crono
+        else:
+            modo = 1   # ON semplice
 
-    for stanza, dev in _iter_devices(state):
-        if dev.get("tipo") != 2:
-            continue
-        cands = _candidates(stanza, dev)
-        if target in cands or max(_score(target, c) for c in cands) >= 1:
-            found_stanza, found_dev = stanza, dev
-            break
+    stanza, zona = _find_clima(state, name)
+    if not zona:
+        return jsonify({"error": f"zona clima non trovata: {name}"}), 404
 
-    if not found_dev:
-        return jsonify({"error": f"termostato non trovato: {name}"}), 404
+    # Primo out della stanza
+    out_nome = zona["out"][0]["nome"] if zona.get("out") else None
+    out      = zona["out"][0] if zona.get("out") else None
 
-    codice = found_dev.get("codice", {})
+    # Controlla se è già nello stato richiesto
+    if out:
+        modo_attuale = out.get("statoClima", {}).get("modo", 0)
+        if modo == modo_attuale:
+            # Stesso modo — controlla anche tTarget se modo 4
+            if modo == 4:
+                t_attuale = out.get("statoClima", {}).get("tTarget")
+                if t_attuale == tTarget:
+                    return jsonify({"ok": True, "already": True, "stanza": stanza, "modo": modo})
+            elif modo in (0, 1):
+                return jsonify({"ok": True, "already": True, "stanza": stanza, "modo": modo})
 
-    # Costruisce il payload di aggiornamento
-    update = {"codice": codice, "nome": found_dev.get("nome")}
-    if on is not None:
-        update["attivo"] = bool(on)
-    if temp is not None:
-        try:
-            update["temperatura_target"] = round(float(temp), 1)
-        except Exception:
-            return jsonify({"error": "temperatura non valida"}), 400
-    if mode in ("riscaldamento", "raffrescamento"):
-        update["modo"] = mode
+    codice_clima = {
+        "stanza": stanza,
+        "nome":   out_nome,
+        "modo":   modo,
+    }
+    if modo == 2 and durata is not None:
+        codice_clima["durata"] = str(durata)
+    if modo == 3 and crono is not None:
+        codice_clima["crono"] = str(crono)
+    if modo == 4 and tTarget is not None:
+        codice_clima["tTarget"] = tTarget
 
     try:
         _send({
-            "method":    "set_climate",
-            "type":      "*",
-            "majordomo": "bridge",
-            "data":      update
+            "metodo": "write_state",
+            "dest":   "CLIMA",
+            "codice": codice_clima,
         })
     except ConnectionError as e:
         return jsonify({"error": str(e)}), 503
 
+    # Aggiorna subito lo stato in memoria
+    if out:
+        with _lock:
+            sc = out.get("statoClima", {})
+            sc["modo"] = modo
+            if modo == 0: out["stato"] = False
+            elif modo in (1, 2, 3, 4): out["stato"] = True
+            if modo == 4 and tTarget is not None: sc["tTarget"] = tTarget
+            if modo == 2 and durata  is not None: sc["durata"]  = str(durata)
+            if modo == 3 and crono   is not None: sc["crono"]   = str(crono)
+
     return jsonify({
         "ok":     True,
-        "stanza": found_stanza,
-        "nome":   found_dev.get("nome"),
-        **update
+        "stanza": stanza,
+        "modo":   modo,
+        **({} if tTarget is None else {"tTarget": tTarget}),
+        **({} if durata  is None else {"durata": durata}),
+        **({} if crono   is None else {"crono": crono}),
     })
 
 # ── GET /climate/state ─────────────────────────────────────────────────────────
@@ -432,23 +506,98 @@ def _climate_state():
     if not state:
         return jsonify({"error": "state not ready"}), 503
 
-    termostati = []
-    for stanza, dev in _iter_devices(state):
-        if dev.get("tipo") == 2:
-            termostati.append({
-                "stanza":              stanza,
-                "nome":                dev.get("nome"),
-                "attivo":              dev.get("attivo", False),
-                "modo":                dev.get("modo", "riscaldamento"),
-                "temperatura_target":  dev.get("temperatura_target"),
-                "temperatura_attuale": dev.get("temperatura_attuale"),
+    result = []
+    for stanza, zona in state.get("data", {}).get("CLIMA", {}).items():
+        sonda = zona.get("sonda", {})
+        for out in zona.get("out", []):
+            result.append({
+                "stanza":      stanza,
+                "nome":        out.get("nome"),
+                "temperatura": sonda.get("temperatura"),
+                "statoClima":  out.get("statoClima", {}),
+                "stato":       out.get("stato", False),
             })
 
-    return jsonify({"termostati": termostati})
+    return jsonify({"termostati": result})
+
+# ── POST /scenario/run ─────────────────────────────────────────────────────────
+@app.post("/scenario/run")
+def _scenario():
+    with _lock:
+        state = _last_state
+    if not state:
+        return jsonify({"error": "state not ready"}), 503
+
+    body = request.get_json(silent=True) or {}
+    name = body.get("name", "")
+
+    if not name:
+        return jsonify({"error": "name mancante"}), 400
+
+    sc = _find_scenario(state, name)
+    if not sc:
+        return jsonify({"error": f"scenario non trovato: {name}"}), 404
+
+    try:
+        _send({
+            "metodo":         "write_state",
+            "dest":           "SCENARI",
+            "codice":         sc.get("codice", {}),
+            "nome_scenario":  sc.get("nome"),   # ← inviamo il nome per match preciso in sim-ws
+            "autorizzazione": "clic",
+        })
+    except ConnectionError as e:
+        return jsonify({"error": str(e)}), 503
+
+    return jsonify({"ok": True, "nome": sc.get("nome")})
+
+# ── POST /antifurto/set ────────────────────────────────────────────────────────
+@app.post("/antifurto/set")
+def _antifurto():
+    with _lock:
+        state = _last_state
+    if not state:
+        return jsonify({"error": "state not ready"}), 503
+
+    body   = request.get_json(silent=True) or {}
+    name   = body.get("name", "")
+    stato  = body.get("stato", 1)
+    pw     = body.get("password", "")
+
+    if not name:
+        return jsonify({"error": "name mancante"}), 400
+
+    target   = _norm(name)
+    antifurto = state.get("data", {}).get("ANTIFURTO", [])
+    found    = next((a for a in antifurto if _norm(a.get("nome", "")) == target), None)
+
+    if not found:
+        return jsonify({"error": f"zona antifurto non trovata: {name}"}), 404
+
+    # Controlla se è già nello stato richiesto
+    if found.get("stato") == stato:
+        return jsonify({"ok": True, "already": True, "nome": found.get("nome"), "stato": stato})
+
+    try:
+        _send({
+            "metodo":   "write_state",
+            "dest":     "ANTIFURTO",
+            "codice":   found.get("codice", {}),
+            "stato":    stato,
+            "password": pw,
+        })
+    except ConnectionError as e:
+        return jsonify({"error": str(e)}), 503
+
+    # Aggiorna subito lo stato in memoria
+    with _lock:
+        found["stato"] = stato
+
+    return jsonify({"ok": True, "nome": found.get("nome"), "stato": stato})
 
 # ── Avvio ──────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     _start_ws()
     threading.Thread(target=_refresh_loop, daemon=True).start()
-    print(f"🚀 Bridge unificato su http://0.0.0.0:{PORT}")
+    print(f"🚀 Bridge v2.0 su http://0.0.0.0:{PORT}")
     app.run(host="0.0.0.0", port=PORT, debug=False)
