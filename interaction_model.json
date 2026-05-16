@@ -1,0 +1,168 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "zik",
+            "intents": [
+                {
+                    "name": "TurnOnIntent",
+                    "slots": [
+                        {
+                            "name": "query",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "accendi {query}",
+                        "attiva {query}",
+                        "metti acceso {query}"
+                    ]
+                },
+                {
+                    "name": "TurnOffIntent",
+                    "slots": [
+                        {
+                            "name": "query",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "spegni {query}",
+                        "disattiva {query}",
+                        "metti spento {query}"
+                    ]
+                },
+                {
+                    "name": "SetBlindPercentIntent",
+                    "slots": [
+                        {
+                            "name": "choice",
+                            "type": "AMAZON.SearchQuery"
+                        },
+                        {
+                            "name": "query",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "scelgo {choice}",
+                        "la finestra {choice}",
+                        "tapparella {choice}",
+                        "quella {choice}",
+                        "la {choice}",
+                        "è {choice}",
+                        "imposta {query}",
+                        "metti {query}",
+                        "porta {query}",
+                        "regola {query}"
+                    ]
+                },
+                {
+                    "name": "OpenBlindIntent",
+                    "slots": [
+                        {
+                            "name": "query",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "apri {query}",
+                        "alza {query}"
+                    ]
+                },
+                {
+                    "name": "CloseBlindIntent",
+                    "slots": [
+                        {
+                            "name": "query",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "chiudi {query}",
+                        "abbassa {query}"
+                    ]
+                },
+                {
+                    "name": "ClimaIntent",
+                    "slots": [
+                        {
+                            "name": "query",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "temperatura {query}",
+                        "riscaldamento {query}",
+                        "termostato {query}",
+                        "clima {query}"
+                    ]
+                },
+                {
+                    "name": "ScenarioIntent",
+                    "slots": [
+                        {
+                            "name": "query",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "scenario {query}",
+                        "attiva scenario {query}",
+                        "esegui scenario {query}",
+                        "lancia scenario {query}",
+                        "avvia scenario {query}"
+                    ]
+                },
+                {
+                    "name": "AntifurtoOnIntent",
+                    "slots": [
+                        {
+                            "name": "query",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "antifurto on {query}",
+                        "antifurto attiva {query}",
+                        "antifurto inserisci {query}"
+                    ]
+                },
+                {
+                    "name": "AntifurtoOffIntent",
+                    "slots": [
+                        {
+                            "name": "query",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "antifurto off {query}",
+                        "antifurto disattiva {query}",
+                        "antifurto disinserisci {query}"
+                    ]
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                }
+            ],
+            "types": []
+        }
+    }
+}
